@@ -21,6 +21,14 @@ public class Product {
     private Integer stock;
     private String description;
 
+    public Integer getProductId() {
+        return product_id;
+    }
+
+    public void setProductId(Integer productId) {
+        this.product_id = productId;
+    }
+
     public String getProduct_name() {
         return product_name;
     }

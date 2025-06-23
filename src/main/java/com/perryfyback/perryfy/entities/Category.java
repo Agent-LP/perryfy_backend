@@ -12,4 +12,12 @@ public class Category {
     private Integer category_id;
 
     private String category;
+
+    public Integer getCategoryId() {
+        return category_id;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.category_id = categoryId;
+    }
 } 

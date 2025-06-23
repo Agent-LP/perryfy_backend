@@ -1,8 +1,9 @@
 package com.perryfyback.perryfy.controllers;
 
-import com.perryfyback.perryfy.models.UserRequest;
-import com.perryfyback.perryfy.models.UserResponse;
-import com.perryfyback.perryfy.services.UserService;
+import com.perryfyback.perryfy.models.users.UserRequest;
+import com.perryfyback.perryfy.models.users.UserResponse;
+import com.perryfyback.perryfy.services.User.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

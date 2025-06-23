@@ -26,4 +26,28 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public Integer getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(Integer userId) {
+        this.user_id = userId;
+    }
+
+    public String getDefaultAddress() {
+        return default_address;
+    }
+
+    public void setDefaultAddress(String defaultAddress) {
+        this.default_address = defaultAddress;
+    }
+
+    public String getPaymentMethodToken() {
+        return payment_method_token;
+    }
+
+    public void setPaymentMethodToken(String paymentMethodToken) {
+        this.payment_method_token = paymentMethodToken;
+    }
 } 

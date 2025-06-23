@@ -1,9 +1,9 @@
-package com.perryfyback.perryfy.models;
+package com.perryfyback.perryfy.models.products;
 
 import lombok.Data;
 
 @Data
-public class ProducResponse {
+public class ProductResponse {
 
     private String product_name;
 

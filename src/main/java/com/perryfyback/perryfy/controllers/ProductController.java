@@ -1,8 +1,9 @@
 package com.perryfyback.perryfy.controllers;
 
-import com.perryfyback.perryfy.models.ProductRequest;
-import com.perryfyback.perryfy.models.ProducResponse;
-import com.perryfyback.perryfy.services.ProductService;
+import com.perryfyback.perryfy.models.products.ProductRequest;
+import com.perryfyback.perryfy.models.products.ProductResponse;
+import com.perryfyback.perryfy.services.Product.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,22 +17,22 @@ public class ProductController {
     private ProductService productService;
     
     @GetMapping
-    public ResponseEntity<List<ProducResponse>> getAllProducts() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProducResponse> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Integer id) {
         return productService.getProductById(id);
     }
 
     @PostMapping
-    public ResponseEntity<ProducResponse> createProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
         return productService.createProduct(productRequest);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProducResponse> updateProduct(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
         return productService.updateProduct(id, productRequest);
     }
 
