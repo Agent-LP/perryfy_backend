@@ -1,10 +1,12 @@
-package com.perryfyback.perryfy.services;
+package com.perryfyback.perryfy.services.Product;
 
 import com.perryfyback.perryfy.entities.*;
-import com.perryfyback.perryfy.models.ProductRequest;
-import com.perryfyback.perryfy.models.PrintAreaRequest;
-import com.perryfyback.perryfy.models.ProductResponse;
+import com.perryfyback.perryfy.models.products.PrintAreaRequest;
+import com.perryfyback.perryfy.models.products.ProductRequest;
+import com.perryfyback.perryfy.models.products.ProductResponse;
 import com.perryfyback.perryfy.repositories.*;
+import com.perryfyback.perryfy.services.User.StripeUserService;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductsServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -36,6 +38,9 @@ public class ProductsServiceImpl implements ProductService {
 
     @Autowired
     private PrintAreaRepository printAreaRepository;
+
+    @Autowired
+    private StripeUserService stripeUserService;
 
     @Override
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
@@ -87,19 +92,48 @@ public class ProductsServiceImpl implements ProductService {
                 product.setImages(images);
             }
             
-            if (productRequest.getPrintAreas() != null && !productRequest.getPrintAreas().isEmpty()) {
+            if (productRequest.getPrintAreas() != null) {
                 Set<PrintArea> printAreas = new HashSet<>();
                 for (PrintAreaRequest printAreaRequest : productRequest.getPrintAreas()) {
-                    PrintArea printArea = new PrintArea();
-                    printArea.setWidth(printAreaRequest.getWidth());
-                    printArea.setHeight(printAreaRequest.getHeight());
-                    PrintArea savedPrintArea = printAreaRepository.save(printArea);
-                    printAreas.add(savedPrintArea);
+                    Optional<PrintArea> existing = printAreaRepository.findByWidthAndHeight(
+                        printAreaRequest.getWidth(), printAreaRequest.getHeight()
+                    );
+                    PrintArea printArea;
+                    if (existing.isPresent()) {
+                        printArea = existing.get();
+                    } else {
+                        printArea = new PrintArea();
+                        printArea.setWidth(printAreaRequest.getWidth());
+                        printArea.setHeight(printAreaRequest.getHeight());
+                        printArea = printAreaRepository.save(printArea);
+                    }
+                    printAreas.add(printArea);
                 }
                 product.setPrintAreas(printAreas);
             }
             
             Product savedProduct = productRepository.save(product);
+            
+            // Create product in Stripe
+            try {
+                var stripeProduct = stripeUserService.createStripeProduct(
+                    savedProduct.getProduct_name(),
+                    savedProduct.getDescription()
+                );
+                
+                var stripePrice = stripeUserService.createStripePrice(
+                    stripeProduct.getId(),
+                    savedProduct.getPrice().longValue(),
+                    savedProduct.getCurrency()
+                );
+                
+                System.out.println("Product created in Stripe - Product ID: " + stripeProduct.getId() + ", Price ID: " + stripePrice.getId());
+                
+            } catch (StripeException e) {
+                System.err.println("Error creating product in Stripe: " + e.getMessage());
+                // Continue with database save even if Stripe fails
+            }
+            
             return ResponseEntity.ok(mapToProductResponse(savedProduct));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -150,11 +184,19 @@ public class ProductsServiceImpl implements ProductService {
             if (productRequest.getPrintAreas() != null) {
                 Set<PrintArea> printAreas = new HashSet<>();
                 for (PrintAreaRequest printAreaRequest : productRequest.getPrintAreas()) {
-                    PrintArea printArea = new PrintArea();
-                    printArea.setWidth(printAreaRequest.getWidth());
-                    printArea.setHeight(printAreaRequest.getHeight());
-                    PrintArea savedPrintArea = printAreaRepository.save(printArea);
-                    printAreas.add(savedPrintArea);
+                    Optional<PrintArea> existing = printAreaRepository.findByWidthAndHeight(
+                        printAreaRequest.getWidth(), printAreaRequest.getHeight()
+                    );
+                    PrintArea printArea;
+                    if (existing.isPresent()) {
+                        printArea = existing.get();
+                    } else {
+                        printArea = new PrintArea();
+                        printArea.setWidth(printAreaRequest.getWidth());
+                        printArea.setHeight(printAreaRequest.getHeight());
+                        printArea = printAreaRepository.save(printArea);
+                    }
+                    printAreas.add(printArea);
                 }
                 existingProduct.setPrintAreas(printAreas);
             }
@@ -193,4 +235,4 @@ public class ProductsServiceImpl implements ProductService {
         product.setDescription(request.getDescription());
         product.setStock((int) request.getStock());
     }
-}
+} 

@@ -1,4 +1,4 @@
-package com.perryfyback.perryfy.models;
+package com.perryfyback.perryfy.models.products;
 
 import lombok.Data;
 

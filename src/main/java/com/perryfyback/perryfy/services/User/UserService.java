@@ -1,8 +1,10 @@
-package com.perryfyback.perryfy.services;
+package com.perryfyback.perryfy.services.User;
 
-import com.perryfyback.perryfy.models.UserRequest;
-import com.perryfyback.perryfy.models.UserResponse;
 import org.springframework.http.ResponseEntity;
+
+import com.perryfyback.perryfy.models.users.UserRequest;
+import com.perryfyback.perryfy.models.users.UserResponse;
+
 import java.util.List;
 
 public interface UserService {
