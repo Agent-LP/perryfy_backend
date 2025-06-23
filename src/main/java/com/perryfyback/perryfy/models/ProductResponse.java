@@ -3,7 +3,7 @@ package com.perryfyback.perryfy.models;
 import lombok.Data;
 
 @Data
-public class ProducResponse {
+public class ProductResponse {
 
     private String product_name;
 

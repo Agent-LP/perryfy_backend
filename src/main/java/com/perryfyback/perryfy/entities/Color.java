@@ -12,4 +12,12 @@ public class Color {
     private Integer color_id;
 
     private String color;
+
+    public Integer getColorId() {
+        return color_id;
+    }
+
+    public void setColorId(Integer colorId) {
+        this.color_id = colorId;
+    }
 } 
