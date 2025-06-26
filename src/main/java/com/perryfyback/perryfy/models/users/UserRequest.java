@@ -1,8 +1,11 @@
 package com.perryfyback.perryfy.models.users;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRequest {
     private String name;
     private String lastname;

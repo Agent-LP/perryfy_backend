@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserResponse> getUserById(Long id) {
+    public ResponseEntity<UserResponse> getUserById(int id) {
         return userRepository.findById(id)
                 .map(user -> ResponseEntity.ok(mapToUserResponse(user)))
                 .orElse(ResponseEntity.notFound().build());
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<UserResponse> updateUser(Long id, UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(int id, UserRequest userRequest) {
         return userRepository.findById(id)
                 .map(existingUser -> {
                     try {
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(Long id) {
+    public ResponseEntity<Void> deleteUser(int id) {
         return userRepository.findById(id)
                 .map(user -> {
                     userRepository.delete(user);

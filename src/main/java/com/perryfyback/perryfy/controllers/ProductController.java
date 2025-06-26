@@ -3,9 +3,9 @@ package com.perryfyback.perryfy.controllers;
 import com.perryfyback.perryfy.models.products.ProductRequest;
 import com.perryfyback.perryfy.models.products.ProductResponse;
 import com.perryfyback.perryfy.services.Product.ProductService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,16 +27,19 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('MERCHANDISER')")
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
         return productService.createProduct(productRequest);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MERCHANDISER')")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
         return productService.updateProduct(id, productRequest);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MERCHANDISER')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         return productService.deleteProduct(id);
     }

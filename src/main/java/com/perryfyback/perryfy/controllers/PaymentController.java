@@ -10,6 +10,7 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,10 +26,11 @@ public class PaymentController {
     private UserRepository userRepository;
 
     @PostMapping("/process")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PaymentResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
         try {
             // Get user from database
-            Optional<User> userOptional = userRepository.findById(paymentRequest.getUserId().longValue());
+            Optional<User> userOptional = userRepository.findById(paymentRequest.getUserId());
             if (userOptional.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
@@ -45,7 +47,7 @@ public class PaymentController {
             PaymentIntent paymentIntent = stripeUserService.createPayment(
                 user.getPaymentMethodToken(),
                 price,
-                user.getEmail() // Using email to search the stripe customer ID for simplicity
+                user.getEmail() // Using payment method token as customer ID for simplicity
             );
 
             PaymentResponse response = new PaymentResponse();
@@ -66,6 +68,7 @@ public class PaymentController {
     }
 
     @GetMapping("/stripe/products")
+    @PreAuthorize("hasRole('MERCHANDISER')")
     public ResponseEntity<String> getStripeProducts() {
         try {
             String productId = stripeUserService.getProducts();

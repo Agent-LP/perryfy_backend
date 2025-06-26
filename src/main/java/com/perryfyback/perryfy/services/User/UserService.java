@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface UserService {
     ResponseEntity<List<UserResponse>> getAllUsers();
-    ResponseEntity<UserResponse> getUserById(Long id);
+    ResponseEntity<UserResponse> getUserById(int id);
     ResponseEntity<UserResponse> createUser(UserRequest userRequest);
-    ResponseEntity<UserResponse> updateUser(Long id, UserRequest userRequest);
-    ResponseEntity<Void> deleteUser(Long id);
+    ResponseEntity<UserResponse> updateUser(int id, UserRequest userRequest);
+    ResponseEntity<Void> deleteUser(int id);
 } 
