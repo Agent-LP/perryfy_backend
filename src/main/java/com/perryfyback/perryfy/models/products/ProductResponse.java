@@ -1,5 +1,7 @@
 package com.perryfyback.perryfy.models.products;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -14,6 +16,8 @@ public class ProductResponse {
     private String description;
 
     private long stock;
+
+    private List<String> imageUrls;
 
     public String getProduct_name() {
         return product_name;
@@ -53,5 +57,13 @@ public class ProductResponse {
 
     public void setStock(long stock) {
         this.stock = stock;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

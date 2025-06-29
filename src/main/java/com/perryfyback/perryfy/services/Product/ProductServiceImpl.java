@@ -225,6 +225,7 @@ public class ProductServiceImpl implements ProductService {
         response.setCurrency(product.getCurrency());
         response.setDescription(product.getDescription());
         response.setStock(product.getStock().longValue());
+        response.setImageUrls(product.getImages().stream().map(Image::getImage).collect(Collectors.toList()));
         return response;
     }
 
