@@ -12,6 +12,7 @@ import com.perryfyback.perryfy.entities.Role;
 import com.perryfyback.perryfy.models.auth.AuthResponse;
 import com.perryfyback.perryfy.models.auth.LoginRequest;
 import com.perryfyback.perryfy.models.users.UserRequest;
+import com.perryfyback.perryfy.models.users.UserRoleResponse;
 import com.perryfyback.perryfy.repositories.UserRepository;
 import com.perryfyback.perryfy.repositories.RoleRepository;
 
@@ -37,10 +38,12 @@ public class AuthServiceImpl implements AuthService{
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        UserDetails user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new RuntimeException("User not found"));
         String token = jwtService.getToken(user);
         return AuthResponse.builder()
+            .userId(user.getUserId())
+            .userRoles(user.getRoles().stream().map(role -> new UserRoleResponse(role.getRole_id(), role.getRole())).toList())
             .token(token)
             .build();
     }
@@ -66,6 +69,8 @@ public class AuthServiceImpl implements AuthService{
         
 
         return AuthResponse.builder()
+            .userId(user.getUserId())
+            .userRoles(user.getRoles().stream().map(role -> new UserRoleResponse(role.getRole_id(), role.getRole())).toList())
             .token(jwtService.getToken(user))
             .build();
     }
