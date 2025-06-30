@@ -10,6 +10,9 @@ public class ProductRequest {
     private String currency;
     private String description;
     private long stock;
+    private Integer variantId;
+    private Integer printfulProductId;
+
     
     // Related entities
     private List<Integer> colorIds;

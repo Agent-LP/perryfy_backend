@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "orderDetail_printImages")
+@Table(name = "orderdetail_printimages")
 public class OrderDetailPrintImage {
     @EmbeddedId
     private OrderDetailPrintImageId id;

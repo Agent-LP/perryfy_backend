@@ -228,6 +228,8 @@ public class ProductServiceImpl implements ProductService {
         response.setCurrency(product.getCurrency());
         response.setDescription(product.getDescription());
         response.setStock(product.getStock().longValue());
+        response.setVariantId(product.getVariantId());
+        response.setPrintfulProductId(product.getPrintfulProductId());
         response.setImageUrls(product.getImages().stream().map(Image::getImage).collect(Collectors.toList()));
         response.setCategories(product.getCategories().stream().map(Category::getCategory).collect(Collectors.toList()));
         response.setColors(product.getColors().stream().map(color -> new ColorResponse(color.getColor_id(), color.getColor(), color.getHexadecimal())).collect(Collectors.toList()));

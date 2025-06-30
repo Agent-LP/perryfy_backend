@@ -21,6 +21,12 @@ public class Product {
     private Integer stock;
     private String description;
 
+    @Column(name = "variant_id")
+    private Integer variantId;
+
+    @Column(name = "printful_product_id")
+    private Integer printfulProductId;
+
     public Integer getProductId() {
         return product_id;
     }
@@ -35,6 +41,22 @@ public class Product {
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
+    }
+
+    public Integer getVariantId() {
+        return variantId;
+    }
+
+    public void setVariantId(Integer variantId) {
+        this.variantId = variantId;
+    }
+
+    public Integer getPrintfulProductId() {
+        return printfulProductId;
+    }
+
+    public void setPrintfulProductId(Integer printfulProductId) {
+        this.printfulProductId = printfulProductId;
     }
 
     @ManyToMany

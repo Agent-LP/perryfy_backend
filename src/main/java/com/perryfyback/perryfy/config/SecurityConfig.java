@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/products/{id}").permitAll()
                 .requestMatchers("/api/products/**").hasRole("MERCHANDISER")
                 .requestMatchers("/api/users/**").hasRole("MERCHANDISER")
+                .requestMatchers("/api/printful/**").permitAll()
                 .requestMatchers("/api/orders/**").authenticated()
                 .requestMatchers("/api/payments/**").authenticated()
                 .anyRequest().authenticated()
