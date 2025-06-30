@@ -2,11 +2,18 @@ package com.perryfyback.perryfy.models.products;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductResponse {
-
+    private long productId;
+    
     private String product_name;
 
     private long price;
@@ -18,6 +25,11 @@ public class ProductResponse {
     private long stock;
 
     private List<String> imageUrls;
+    private List<String> categories;
+    private List<String> colors;
+    private List<String> sizes;
+    private List<PrintAreaResponse> printAreas;
+
 
     public String getProduct_name() {
         return product_name;

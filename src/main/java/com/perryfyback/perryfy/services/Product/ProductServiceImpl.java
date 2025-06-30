@@ -2,6 +2,7 @@ package com.perryfyback.perryfy.services.Product;
 
 import com.perryfyback.perryfy.entities.*;
 import com.perryfyback.perryfy.models.products.PrintAreaRequest;
+import com.perryfyback.perryfy.models.products.PrintAreaResponse;
 import com.perryfyback.perryfy.models.products.ProductRequest;
 import com.perryfyback.perryfy.models.products.ProductResponse;
 import com.perryfyback.perryfy.repositories.*;
@@ -220,14 +221,19 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductResponse mapToProductResponse(Product product) {
         ProductResponse response = new ProductResponse();
+        response.setProductId(product.getProductId());
         response.setProduct_name(product.getProduct_name());
         response.setPrice(product.getPrice().longValue());
         response.setCurrency(product.getCurrency());
         response.setDescription(product.getDescription());
         response.setStock(product.getStock().longValue());
         response.setImageUrls(product.getImages().stream().map(Image::getImage).collect(Collectors.toList()));
+        response.setCategories(product.getCategories().stream().map(Category::getCategory).collect(Collectors.toList()));
+        response.setColors(product.getColors().stream().map(Color::getColor).collect(Collectors.toList()));
+        response.setSizes(product.getSizes().stream().map(Size::getSize).collect(Collectors.toList()));
+        response.setPrintAreas(product.getPrintAreas().stream().map(printArea -> new PrintAreaResponse(printArea.getPrint_area_id(), printArea.getWidth(), printArea.getHeight())).collect(Collectors.toList()));
         return response;
-    }
+    }   
 
     private void mapProductRequestToEntity(ProductRequest request, Product product) {
         product.setProduct_name(request.getProduct_name());

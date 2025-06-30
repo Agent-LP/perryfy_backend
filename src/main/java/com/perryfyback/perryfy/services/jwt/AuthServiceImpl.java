@@ -2,7 +2,6 @@ package com.perryfyback.perryfy.services.jwt;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +42,7 @@ public class AuthServiceImpl implements AuthService{
         String token = jwtService.getToken(user);
         return AuthResponse.builder()
             .userId(user.getUserId())
+            .userName(user.getName())
             .userRoles(user.getRoles().stream().map(role -> new UserRoleResponse(role.getRole_id(), role.getRole())).toList())
             .token(token)
             .build();
@@ -70,6 +70,7 @@ public class AuthServiceImpl implements AuthService{
 
         return AuthResponse.builder()
             .userId(user.getUserId())
+            .userName(user.getName())
             .userRoles(user.getRoles().stream().map(role -> new UserRoleResponse(role.getRole_id(), role.getRole())).toList())
             .token(jwtService.getToken(user))
             .build();

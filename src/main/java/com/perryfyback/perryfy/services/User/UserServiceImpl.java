@@ -5,8 +5,12 @@ import com.perryfyback.perryfy.models.users.UserRequest;
 import com.perryfyback.perryfy.models.users.UserResponse;
 import com.perryfyback.perryfy.repositories.UserRepository;
 import com.stripe.exception.StripeException;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -21,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StripeUserService stripeUserService;
-
+    private final PasswordEncoder passwordEncoder;
     @Override
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> users = userRepository.findAll().stream()
@@ -116,7 +121,7 @@ public class UserServiceImpl implements UserService {
         user.setName(request.getName());
         user.setLastname(request.getLastname());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setDefaultAddress(request.getDefaultAddress());
         user.setPaymentMethodToken(request.getPaymentMethodToken());
     }

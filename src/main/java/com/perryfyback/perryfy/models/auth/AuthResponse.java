@@ -2,7 +2,6 @@ package com.perryfyback.perryfy.models.auth;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.perryfyback.perryfy.models.users.UserRoleResponse;
 
@@ -17,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  
 public class AuthResponse {
   Integer userId;
+  String userName;
   List<UserRoleResponse> userRoles;
   String token;
 
