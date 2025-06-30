@@ -1,6 +1,7 @@
 package com.perryfyback.perryfy.services.Product;
 
 import com.perryfyback.perryfy.entities.*;
+import com.perryfyback.perryfy.models.products.ColorResponse;
 import com.perryfyback.perryfy.models.products.PrintAreaRequest;
 import com.perryfyback.perryfy.models.products.PrintAreaResponse;
 import com.perryfyback.perryfy.models.products.ProductRequest;
@@ -229,7 +230,7 @@ public class ProductServiceImpl implements ProductService {
         response.setStock(product.getStock().longValue());
         response.setImageUrls(product.getImages().stream().map(Image::getImage).collect(Collectors.toList()));
         response.setCategories(product.getCategories().stream().map(Category::getCategory).collect(Collectors.toList()));
-        response.setColors(product.getColors().stream().map(Color::getColor).collect(Collectors.toList()));
+        response.setColors(product.getColors().stream().map(color -> new ColorResponse(color.getColor_id(), color.getColor(), color.getHexadecimal())).collect(Collectors.toList()));
         response.setSizes(product.getSizes().stream().map(Size::getSize).collect(Collectors.toList()));
         response.setPrintAreas(product.getPrintAreas().stream().map(printArea -> new PrintAreaResponse(printArea.getPrint_area_id(), printArea.getWidth(), printArea.getHeight())).collect(Collectors.toList()));
         return response;

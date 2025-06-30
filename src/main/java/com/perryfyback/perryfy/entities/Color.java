@@ -1,23 +1,26 @@
 package com.perryfyback.perryfy.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "colors")
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer color_id;
 
+    @Column(name = "color")
     private String color;
 
-    public Integer getColorId() {
-        return color_id;
-    }
+    @Column(name = "hexadecimal")
+    private String hexadecimal;
 
-    public void setColorId(Integer colorId) {
-        this.color_id = colorId;
-    }
 } 

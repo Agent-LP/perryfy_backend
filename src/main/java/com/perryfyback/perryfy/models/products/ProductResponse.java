@@ -26,7 +26,7 @@ public class ProductResponse {
 
     private List<String> imageUrls;
     private List<String> categories;
-    private List<String> colors;
+    private List<ColorResponse> colors;
     private List<String> sizes;
     private List<PrintAreaResponse> printAreas;
 
