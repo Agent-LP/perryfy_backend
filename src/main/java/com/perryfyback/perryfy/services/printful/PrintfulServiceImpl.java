@@ -44,16 +44,17 @@ public class PrintfulServiceImpl implements PrintfulService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(API_KEY);
-
+        
         List<MockupFile> files = mockupRequest.getFiles().stream()
                 .map(fileRequest -> {
+                    System.out.print(fileRequest.getPosition().getArea_width());
                     Position position = new Position();
                     position.setWidth(fileRequest.getPosition().getWidth());
                     position.setHeight(fileRequest.getPosition().getHeight());
-                    position.setArea_width(AREA_WIDTH);
-                    position.setArea_height(AREA_HEIGHT);
-                    position.setTop((AREA_HEIGHT - fileRequest.getPosition().getHeight()) / 2);
-                    position.setLeft((AREA_WIDTH - fileRequest.getPosition().getWidth()) / 2);
+                    position.setArea_width(fileRequest.getPosition().getArea_width());
+                    position.setArea_height(fileRequest.getPosition().getArea_height());
+                    position.setTop((fileRequest.getPosition().getArea_height() - fileRequest.getPosition().getHeight()) / 2);
+                    position.setLeft((fileRequest.getPosition().getArea_width() - fileRequest.getPosition().getWidth()) / 2);
 
                     MockupFile mockupFile = new MockupFile();
                     mockupFile.setPlacement(fileRequest.getPlacement());

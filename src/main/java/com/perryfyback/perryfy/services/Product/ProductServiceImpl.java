@@ -228,8 +228,9 @@ public class ProductServiceImpl implements ProductService {
         response.setCurrency(product.getCurrency());
         response.setDescription(product.getDescription());
         response.setStock(product.getStock().longValue());
-        response.setVariantId(product.getVariantId());
         response.setPrintfulProductId(product.getPrintfulProductId());
+        response.setArea_height(product.getAreaHeight());
+        response.setArea_width(product.getAreaWidth());
         response.setImageUrls(product.getImages().stream().map(Image::getImage).collect(Collectors.toList()));
         response.setCategories(product.getCategories().stream().map(Category::getCategory).collect(Collectors.toList()));
         response.setColors(product.getColors().stream().map(color -> new ColorResponse(color.getColor_id(), color.getColor(), color.getHexadecimal())).collect(Collectors.toList()));
@@ -244,5 +245,19 @@ public class ProductServiceImpl implements ProductService {
         product.setCurrency(request.getCurrency());
         product.setDescription(request.getDescription());
         product.setStock((int) request.getStock());
+        if (request.getPrintfulProductId() != null) {
+            product.setPrintfulProductId(request.getPrintfulProductId());
+        }
+        // Nuevos campos para área de impresión
+        if (request.getPrintAreas() != null && !request.getPrintAreas().isEmpty()) {
+            // Tomar el primer área como principal para los campos directos
+            var printArea = request.getPrintAreas().get(0);
+            if (printArea.getWidth() != null) {
+                product.setAreaWidth(printArea.getWidth());
+            }
+            if (printArea.getHeight() != null) {
+                product.setAreaHeight(printArea.getHeight());
+            }
+        }
     }
 } 

@@ -21,11 +21,32 @@ public class Product {
     private Integer stock;
     private String description;
 
-    @Column(name = "variant_id")
-    private Integer variantId;
 
     @Column(name = "printful_product_id")
     private Integer printfulProductId;
+
+    @Column(name = "area_width")
+    private Integer area_width;
+
+    @Column(name = "area_height")
+    private Integer area_height;
+
+    public Integer getAreaWidth() {
+        return area_width;
+    }
+
+    public void setAreaWidth(Integer area_width) {
+        this.area_width = area_width;
+    }
+    
+    public Integer getAreaHeight() {
+        return area_height;
+    }
+
+    public void setAreaHeight(Integer area_height) {
+        this.area_height = area_height;
+    }
+
 
     public Integer getProductId() {
         return product_id;
@@ -43,13 +64,6 @@ public class Product {
         this.product_name = product_name;
     }
 
-    public Integer getVariantId() {
-        return variantId;
-    }
-
-    public void setVariantId(Integer variantId) {
-        this.variantId = variantId;
-    }
 
     public Integer getPrintfulProductId() {
         return printfulProductId;

@@ -24,10 +24,9 @@ public class ProductResponse {
 
     private long stock;
 
-    private Integer variantId;
-
     private Integer printfulProductId;
-
+    private Integer area_width;
+    private Integer area_height;
 
     private List<String> imageUrls;
     private List<String> categories;
@@ -93,11 +92,6 @@ public class ProductResponse {
         this.printfulProductId = printfulProductId;
     }
 
-    public Integer getVariantId() {
-        return variantId;
-    }
+    
 
-    public void setVariantId(Integer variantId) {
-        this.variantId = variantId;
-    }
 }
